@@ -1,4 +1,12 @@
-public class ThreeZeros {
+package DFA;
+
+/* here we build the DFA capable of recognizing any string of the language {0,1} NOT containing at least a
+    substring of '000'
+    should be enough to just invert the accepting and not accepting states
+ */
+
+
+public class NotThreeZeros {
     public static boolean scan(String s){
         int state = 0;
         int i = 0;
@@ -38,13 +46,13 @@ public class ThreeZeros {
                     break;
             }
         }
-        return state == 3;
+        return (state == 0 || state == 1 || state == 2);
     }
 
 
 
     public static void main(String[] args) {
-        System.out.println(ThreeZeros.scan(args[0]) ? "Ok" : "Nope");
+        System.out.println(NotThreeZeros.scan(args[0]) ? "Ok" : "Nope");
     }
 
 }

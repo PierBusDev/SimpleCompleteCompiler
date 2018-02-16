@@ -1,3 +1,6 @@
+package Testing;
+
+import DFA.ThreeZeros;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
