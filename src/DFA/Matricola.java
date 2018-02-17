@@ -2,8 +2,8 @@ package DFA;
 
 /*
  * This particular dfa must accept strings formed by a string of number (of any dimension) followed by a string of letters (of any dimension) based on:
- * if the string of number is even the string of letters MUST start with a-kA-k
- * if is odd the string of letters MUST start with l-zL-z
+ * if the string of number is even the string of letters MUST start with A-k
+ * if is odd the string of letters MUST start with L-z
  * the string is a surname (first letter uppercase, all the rest lower case)
  */
 
@@ -17,9 +17,9 @@ public class Matricola {
 
             switch (state) {
                 case 0:
-                    if (!Character.isLetter(ch) && Character.getNumericValue(ch) % 2 == 0) //even
+                    if (Character.isDigit(ch) && Character.getNumericValue(ch) % 2 == 0) //even
                         state = 1;
-                    else if (!Character.isLetter(ch) && Character.getNumericValue(ch) % 2 != 0) //odd
+                    else if (Character.isDigit(ch) && Character.getNumericValue(ch) % 2 != 0) //odd
                         state = 2;
                     else state = -1;
                     break;
@@ -27,9 +27,9 @@ public class Matricola {
                 case 1:
                     if (Character.toString(ch).matches("[A-K]"))
                         state = 3;
-                    else if (!Character.isLetter(ch) && Character.getNumericValue(ch) % 2 == 0) //even
+                    else if (Character.isDigit(ch) && Character.getNumericValue(ch) % 2 == 0) //even
                         state = 1;
-                    else if (!Character.isLetter(ch) && Character.getNumericValue(ch) % 2 != 0) //odd
+                    else if (Character.isDigit(ch) && Character.getNumericValue(ch) % 2 != 0) //odd
                         state = 2;
                     else state = -1;
                     break;
@@ -37,9 +37,9 @@ public class Matricola {
                 case 2:
                     if (Character.toString(ch).matches("[L-Z]"))
                         state = 3;
-                    else if (!Character.isLetter(ch) && Character.getNumericValue(ch) % 2 == 0) //even
+                    else if (Character.isDigit(ch) && Character.getNumericValue(ch) % 2 == 0) //even
                         state = 1;
-                    else if (!Character.isLetter(ch) && Character.getNumericValue(ch) % 2 != 0) //odd
+                    else if (Character.isDigit(ch) && Character.getNumericValue(ch) % 2 != 0) //odd
                         state = 2;
                     else state = -1;
                     break;

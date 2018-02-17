@@ -24,9 +24,9 @@ public class MatricolaWithSpaces {
                 case 0:
                     if( ch == ' ')
                         state = 0;
-                    else if (!Character.isLetter(ch) && Character.getNumericValue(ch) % 2 == 0) //even
+                    else if (Character.isDigit(ch) && Character.getNumericValue(ch) % 2 == 0) //even
                         state = 1;
-                    else if (!Character.isLetter(ch) && Character.getNumericValue(ch) % 2 != 0) //odd
+                    else if (Character.isDigit(ch) && Character.getNumericValue(ch) % 2 != 0) //odd
                         state = 2;
                     else state = -1;
                     break;
@@ -36,9 +36,9 @@ public class MatricolaWithSpaces {
                         state = 3;
                     else if (Character.toString(ch).matches("[A-K]"))
                         state = 5;
-                    else if (!Character.isLetter(ch) && Character.getNumericValue(ch) % 2 == 0) //even
+                    else if (Character.isDigit(ch) && Character.getNumericValue(ch) % 2 == 0) //even
                         state = 1;
-                    else if (!Character.isLetter(ch) && Character.getNumericValue(ch) % 2 != 0) //odd
+                    else if (Character.isDigit(ch) && Character.getNumericValue(ch) % 2 != 0) //odd
                         state = 2;
                     else state = -1;
                     break;
@@ -48,9 +48,9 @@ public class MatricolaWithSpaces {
                         state = 4;
                     else if (Character.toString(ch).matches("[L-Z]"))
                         state = 5;
-                    else if (!Character.isLetter(ch) && Character.getNumericValue(ch) % 2 == 0) //even
+                    else if (Character.isDigit(ch) && Character.getNumericValue(ch) % 2 == 0) //even
                         state = 1;
-                    else if (!Character.isLetter(ch) && Character.getNumericValue(ch) % 2 != 0) //odd
+                    else if (Character.isDigit(ch) && Character.getNumericValue(ch) % 2 != 0) //odd
                         state = 2;
                     else state = -1;
                     break;
