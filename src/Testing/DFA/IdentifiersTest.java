@@ -1,4 +1,4 @@
-package Testing;
+package Testing.DFA;
 
 import DFA.Identifiers;
 import org.junit.Assert;

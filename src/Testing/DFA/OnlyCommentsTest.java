@@ -1,4 +1,4 @@
-package Testing;
+package Testing.DFA;
 
 import DFA.OnlyComments;
 import org.junit.Assert;
@@ -24,16 +24,16 @@ public class OnlyCommentsTest {
 
     @Before
     public void setUp() throws Exception {
-        tc.add(new TestCase("/****/", true)); //3
-        tc.add(new TestCase("/***/", true));//6
-        tc.add(new TestCase("/*a*a*/", true));//9
-        tc.add(new TestCase("/*a/**/", true));//12
-        tc.add(new TestCase("/**a///a/a**/", true));//15
-        tc.add(new TestCase("/**/", true));//18
+        tc.add(new TestCase("/****/", true));
+        tc.add(new TestCase("/***/", true));
+        tc.add(new TestCase("/*a*a*/", true));
+        tc.add(new TestCase("/*a/**/", true));
+        tc.add(new TestCase("/**a///a/a**/", true));
+        tc.add(new TestCase("/**/", true));
         tc.add(new TestCase("/*/*/", true));
         tc.add(new TestCase("/*/", false));
-        tc.add(new TestCase("/**/***/", false));//2
-        tc.add(new TestCase("//", false));//7
+        tc.add(new TestCase("/**/***/", false));
+        tc.add(new TestCase("//", false));
     }
 
 
