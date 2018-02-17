@@ -34,6 +34,8 @@ public class MatricolaTest {
         tc.add(new TestCase("Rossi", false));
         tc.add(new TestCase("2341", false));
         tc.add(new TestCase("2123132%Bianchi", false));
+        tc.add(new TestCase("2123132bianchi", false)); //surnames must start with uppercase
+        tc.add(new TestCase("21VErdi", false)); //and not have uppercase after the first letter
     }
 
 

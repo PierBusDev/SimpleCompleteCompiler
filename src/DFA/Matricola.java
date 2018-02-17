@@ -24,7 +24,7 @@ public class Matricola {
                     break;
 
                 case 1:
-                    if (Character.toString(ch).matches("[a-kA-K]"))
+                    if (Character.toString(ch).matches("[A-K]"))
                         state = 3;
                     else if (!Character.isLetter(ch) && Character.getNumericValue(ch) % 2 == 0) //even
                         state = 1;
@@ -34,7 +34,7 @@ public class Matricola {
                     break;
 
                 case 2:
-                    if (Character.toString(ch).matches("[l-zL-Z]"))
+                    if (Character.toString(ch).matches("[L-Z]"))
                         state = 3;
                     else if (!Character.isLetter(ch) && Character.getNumericValue(ch) % 2 == 0) //even
                         state = 1;
@@ -44,7 +44,7 @@ public class Matricola {
                     break;
 
                 case 3:
-                    if(Character.toString(ch).matches("[a-zA-Z]"))
+                    if(Character.toString(ch).matches("[a-z]"))
                         state = 3;
                     else
                         state = -1;
