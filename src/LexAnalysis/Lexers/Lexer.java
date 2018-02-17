@@ -1,4 +1,9 @@
-package LexAnalysis;
+package LexAnalysis.Lexers;
+
+import LexAnalysis.NumberTok;
+import LexAnalysis.Tag;
+import LexAnalysis.Token;
+import LexAnalysis.Word;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
