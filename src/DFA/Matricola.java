@@ -4,6 +4,7 @@ package DFA;
  * This particular dfa must accept strings formed by a string of number (of any dimension) followed by a string of letters (of any dimension) based on:
  * if the string of number is even the string of letters MUST start with a-kA-k
  * if is odd the string of letters MUST start with l-zL-z
+ * the string is a surname (first letter uppercase, all the rest lower case)
  */
 
 public class Matricola {
