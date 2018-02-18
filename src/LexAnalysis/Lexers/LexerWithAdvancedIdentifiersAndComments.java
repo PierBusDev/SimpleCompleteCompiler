@@ -38,9 +38,7 @@ public class LexerWithAdvancedIdentifiersAndComments {
         }
     }
 
-    private void checkForComments(BufferedReader br){
 
-    }
 
     public Token lexicalScan(BufferedReader br){
         //ignore all spacing chars
@@ -52,8 +50,6 @@ public class LexerWithAdvancedIdentifiersAndComments {
             readch(br); //next input
         }
 
-        if(peek == '/')
-            checkForComments(br);
 
         switch(peek){
             //=============================== Tokens
@@ -82,9 +78,17 @@ public class LexerWithAdvancedIdentifiersAndComments {
                                 //go forward
                                 return this.lexicalScan(br);
                             }else{ //it was just an isolated *
+                                if(peek == (char) -1){
+                                    System.err.println("Error, a comment starting with /* was not closed correctly before the eof");
+                                    return null;
+                                }
                                 readch(br);
                             }
                         }else{ //we are still inside the comment, skip the char
+                            if(peek == (char) -1){
+                                System.err.println("Error, a comment starting with /* was not closed correctly before the eof");
+                                return null;
+                            }
                             readch(br);
                         }
                     }
