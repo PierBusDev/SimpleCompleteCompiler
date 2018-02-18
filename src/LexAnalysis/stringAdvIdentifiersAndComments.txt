@@ -1,0 +1,13 @@
+25 6  7 75
+d=300;
+t=10;
+print(d*t)
+if x>y then x=0
+for (ifx=1; ifx<=printread) do ifx=ifx+1
+
+___abc = 23
+
+/*calcolare la velocita‘ */
+d=300; // distanza
+t=10; // tempo
+print(d*t)
