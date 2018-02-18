@@ -129,11 +129,11 @@ public class LexerWithAdvancedIdentifiers {
 
             default:
                 if(Character.isLetter(peek) || peek == '_'){
-                    //=========================== case of identifiers and keywords
+                    //=========================== case of IDENTIFIERS and KEYWORDS
                     //let's read until the next space
                     String tempStr = "" + peek;
                     readch(br);
-                    while(Character.isLetter(peek) || peek == '_'){
+                    while(Character.isLetter(peek) || Character.isDigit(peek) || peek == '_'){
                         tempStr += peek;
                         readch(br);
                     }
@@ -152,7 +152,7 @@ public class LexerWithAdvancedIdentifiers {
                     }
 
                 }else if(Character.isDigit(peek)){
-                    //=========================== case of numbers
+                    //=========================== case of NUMBERS
                     String formingNumber = "" + peek;
                     readch(br);
                     while(Character.isDigit(peek)){ //keep adding numbers to the string until possible
