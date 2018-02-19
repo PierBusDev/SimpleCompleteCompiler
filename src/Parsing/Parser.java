@@ -39,39 +39,96 @@ public class Parser {
     }
 
     public void start(){
-        move();
-        expr();
-        match(Tag.EOF);
-        //TODO
+        //move(); //first move is already called in the constructor
+        // gui(start -> expr EOF) = { (, NUM }
+        if(look.tag == '(' || look.tag == Tag.NUM) {
+            expr();
+            match(Tag.EOF);
+        }else{
+            error("syntax error: '" + look + "' is not in gui(start -> expr EOF)" );
+        }
     }
 
     private void expr(){
-
+        //gui(expr -> term exprp) = { (, NUM}
+        if(look.tag == '(' || look.tag == Tag.NUM){
+            term();
+            exprp();
+        }else{
+            error("syntax error: '" + look + "' is not in gui(expr -> term exprp)" );
+        }
     }
 
     private void exprp(){
         switch(look.tag){
-            case '+':
-                //TODO
+            case '+': //gui(exprp -> + term exprp) = +
+                move();
+                term();
+                exprp();
+                break;
+            case '-': //gui(exprp -> - term exprp) = -
+                move();
+                term();
+                exprp();
+                break;
+            case ')': //gui(exprp -> epsilon) = { ), EOF}
+            case Tag.EOF:
+                //do nothing
+                break;
+            default:
+                error("syntax error: '" + look + "' is not in gui(exprp -> ...)");
         }
     }
 
     private void term(){
-
+        if(look.tag == '(' || look.tag == Tag.NUM){ //gui(term -> fact termp) = { (, EOF}
+            fact();
+            termp();
+        }else{
+            error("syntax error: '" + look + "' is not in gui(term -> fact termp)" );
+        }
     }
 
     private void termp(){
-
+        switch(look.tag){
+            case '*': //gui(termp -> * fact termp) = *
+                move();
+                fact();
+                termp();
+                break;
+            case '/': //gui(termp -> / fact termp) = /
+                move();
+                fact();
+                termp();
+                break;
+            case '+': //gui(termp -> epsilon) = { +, -, ), EOF}
+            case '-':
+            case ')':
+            case Tag.EOF:
+                //do nothing
+                break;
+            default:
+                error("syntax error: '" + look + "' is not in gui(termp -> ...)");
+        }
     }
 
     private void fact(){
+        if(look.tag == '('){ // gui(fact ->( expr ) } = (
+            move();
+            expr();
+            match(Token.rpt.tag);
+        }else if(look.tag == Tag.NUM){ //gui(fact -> NUM) = NUM
+            move();
+        }else{
+            error("syntax error: '" + look + "' is not in gui(fact-> ...)");
+        }
 
     }
 
 
     public static void main(String[] args){
         Lexer lex = new Lexer();
-        String path = "";
+        String path = "src/Parsing/mathOperations.txt";
         try{
             BufferedReader br = new BufferedReader(new FileReader(path));
             Parser parser = new Parser(lex, br);
