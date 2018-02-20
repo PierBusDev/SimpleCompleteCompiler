@@ -1,0 +1,16 @@
+if a <> b
+    then b = 86
+    else c = 22 / a;
+
+print ( test );
+
+if b > 55
+    then read ( pippo);
+
+for ( test = 58; test > a) do
+    print ( ciao );
+
+begin
+    b = 5 + 6 / 56 * 98;
+    read( a )
+end
