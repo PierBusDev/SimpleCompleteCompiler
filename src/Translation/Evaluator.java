@@ -1,4 +1,4 @@
-package Traduction;
+package Translation;
 
 import LexAnalysis.Lexers.Lexer;
 import LexAnalysis.NumberTok;
@@ -148,7 +148,7 @@ public class Evaluator {
 
     public static void main(String[] args){
         Lexer lex = new Lexer();
-        String path = "src/Traduction/mathOperations.txt";
+        String path = "src/Translation/mathOperations.txt";
         try{
             BufferedReader br = new BufferedReader(new FileReader(path));
             Evaluator parser = new Evaluator(lex, br);
