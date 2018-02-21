@@ -10,6 +10,11 @@ public class CodeGenerator {
     LinkedList<Instruction> instructions = new LinkedList<Instruction>();
 
     int label = 0;
+    private String outputFileName;
+
+    public CodeGenerator(String fn){
+        this.outputFileName = fn;
+    }
 
     public void emit(OpCode opCode){
         instructions.add(new Instruction(opCode));
@@ -28,7 +33,7 @@ public class CodeGenerator {
     }
 
     public void toJasmin() throws IOException{
-        PrintWriter out = new PrintWriter(new FileWriter("src/CodeGeneration/Output.j"));
+        PrintWriter out = new PrintWriter(new FileWriter(this.outputFileName));
         String temp = "";
         temp = temp + header;
         while(instructions.size() > 0){

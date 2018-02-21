@@ -1,5 +1,7 @@
-package CodeGeneration;
+package CodeGeneration.simpleOperations;
 
+import CodeGeneration.CodeGenerator;
+import CodeGeneration.OpCode;
 import LexAnalysis.Lexers.Lexer;
 import LexAnalysis.NumberTok;
 import LexAnalysis.Tag;
@@ -14,7 +16,7 @@ public class ExpressionTranslator {
     private BufferedReader pbr;
     private Token look;
 
-    CodeGenerator codeGen = new CodeGenerator();
+    CodeGenerator codeGen = new CodeGenerator("src/CodeGeneration/simpleOperations/Output.j");
 
     public ExpressionTranslator(Lexer l, BufferedReader br){
         lex = l;
@@ -146,7 +148,7 @@ public class ExpressionTranslator {
 
     public static void main(String[] args){
         Lexer lex = new Lexer();
-        String path = "src/CodeGeneration/mathOperations.txt";
+        String path = "src/CodeGeneration/simpleOperations/mathOperations.txt";
         try{
             BufferedReader br = new BufferedReader(new FileReader(path));
             ExpressionTranslator translator = new ExpressionTranslator(lex, br);
