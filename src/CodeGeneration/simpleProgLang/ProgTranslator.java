@@ -145,21 +145,27 @@ public class ProgTranslator {
                 begin = codeGen.newLabel();
                 btrue = codeGen.newLabel();
                 bfalse = lnext;
+
+            int id_addr = st.lookupAddress(((Word)look).lexeme);
+            if(id_addr == -1){ // not found
+                id_addr = count;
+                st.insert(((Word)look).lexeme, count++); //just store it
+            }
+
             match(Tag.ID, "should have read ID instead of " + look.tag);
-                int id_addr = st.lookupAddress(((Word)look).lexeme);
-                if(id_addr == -1){ // not found
-                    id_addr = count;
-                    st.insert(((Word)look).lexeme, count++); //just store it
-                }
             match(Token.assign.tag, "should have read = instead of " + look.tag);
             expr();
                 codeGen.emit(OpCode.istore, id_addr );
             match(Token.semicolon.tag, "should have read ; instead of " + look.tag);
                 codeGen.emitLabel(begin);
-            bexpr(btrue); //TODO QUA HO MODIFICATO BEXPR< PRIMA RICEVEVA ANCHE bfalse
-                codeGen.emitLabel(btrue);
+            bexpr(btrue);
+                //if the expr is false, goto the next of STAT (jumping out of the for)
+                codeGen.emit(OpCode.GOto, lnext);
+            codeGen.emitLabel(btrue);
             match(Token.rpt.tag, "should have read ) instead of " + look.tag);
             match(Word.dotok.tag, "should have read do instead of " + look.tag);
+            //if I run this STAT it means I am inside the iteration and at the end I have to recheck the conditions
+            // so go to the begin label
             stat(begin);
                 //code to increment the index
                 codeGen.emit(OpCode.ldc, 1);
