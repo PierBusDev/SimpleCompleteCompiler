@@ -99,6 +99,7 @@ public class ProgTranslator {
                 codeGen.emit(OpCode.invokestatic, 1);
             match(Token.rpt.tag, "should have read ) instead of " + look.tag);
 
+        //========================================================
         }else if(look.tag == Word.read.tag){ // STAT -> read ( id )
             move();
             match(Token.lpt.tag, "should have read ( instead of " + look.tag );
@@ -120,20 +121,21 @@ public class ProgTranslator {
         //===========================================================
         }else if(look.tag == Word.iftok.tag ){ // STAT -> if BEXPR then STAT ELSE_STAT
             move();
-            int ltrue = codeGen.newLabel(), lfalse = lnext;
-            bexpr(ltrue, lfalse);
-                //if the comparision returned true this is where to go: (aka execute the then subtree)
+            int ltrue = codeGen.newLabel(), lfalse = codeGen.newLabel();
+            bexpr(ltrue);
+                codeGen.emit(OpCode.GOto, lfalse);
+            //if the comparision returned true this is where to go: (aka execute the then subtree)
                 codeGen.emitLabel(ltrue);
 
             match(Tag.THEN, "should have read then instead of " + look.tag);
 
             stat(lnext);
-            //codeGen.emit(OpCode.GOto, lnext);
+            codeGen.emit(OpCode.GOto, lnext);
 
             //if bexpr evaluates as false it will go here
-            //codeGen.emitLabel(lfalse);
+            codeGen.emitLabel(lfalse);
             // if there is an else i will have the code here
-            else_stat(lfalse);
+            else_stat(lfalse, lnext);
 
         //============================================================
         }else if(look.tag == Word.fortok.tag){ // STAT -> for (id = EXPR; BEXPR) do STAT
@@ -154,7 +156,7 @@ public class ProgTranslator {
                 codeGen.emit(OpCode.istore, id_addr );
             match(Token.semicolon.tag, "should have read ; instead of " + look.tag);
                 codeGen.emitLabel(begin);
-            bexpr(btrue, bfalse);
+            bexpr(btrue); //TODO QUA HO MODIFICATO BEXPR< PRIMA RICEVEVA ANCHE bfalse
                 codeGen.emitLabel(btrue);
             match(Token.rpt.tag, "should have read ) instead of " + look.tag);
             match(Word.dotok.tag, "should have read do instead of " + look.tag);
@@ -179,11 +181,11 @@ public class ProgTranslator {
     }
 
 
-    private void else_stat(int lnext){
+    private void else_stat(int lfalse, int lnext){
         if(look.tag == Word.elsetok.tag){ //ELSE_STAT -> else STAT
             move();
-            //codeGen.emitLabel(lnext);
             stat(lnext);
+            //codeGen.emitLabel(lnext);
         }else if(look.tag == Token.semicolon.tag
                 || look.tag == Word.end.tag
                 || look.tag == Tag.EOF){ //gui(ELSE_STAT -> epsilon) = { ;, end, eof }
@@ -225,7 +227,7 @@ public class ProgTranslator {
         }
     }
 
-    private void bexpr(int ltrue, int lfalse){
+    private void bexpr(int ltrue){
         if(look.tag ==  Token.lpt.tag
                 || look.tag ==  Tag.NUM
                 || look.tag ==  Tag.ID){ // BEXPR -> EXPR relop EXPR
@@ -252,7 +254,7 @@ public class ProgTranslator {
             }else{
                 error("Expected a relop symbol");
             }
-            codeGen.emit(OpCode.GOto, lfalse);
+
 
         }else{
             error("syntax error: '" + look + "' is not in gui(BEXPR -> EXPR relop EXPR)");
