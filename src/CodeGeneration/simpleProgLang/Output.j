@@ -46,6 +46,17 @@ L3:
  iadd 
  invokestatic Output/print(I)V
 L4:
+ iload 3
+ iload 4
+ if_icmpgt L6
+ goto L5
+L6:
+ iload 3
+ istore 4
+L5:
+ iload 5
+ istore 4
+L5:
 L0:
  return
 .end method

@@ -36,21 +36,19 @@ L1:
  iload 2
  iload 0
  if_icmpgt L3
- goto L4
+ goto L2
 L3:
  iload 2
  istore 0
-L4:
 L2:
  iload 3
  iload 0
- if_icmpgt L6
- goto L7
-L6:
+ if_icmpgt L5
+ goto L4
+L5:
  iload 3
  istore 0
-L7:
-L5:
+L4:
  iload 0
  iload 1
  iload 2
@@ -59,7 +57,7 @@ L5:
  imul 
  iadd 
  istore 4
-L8:
+L6:
 L0:
  return
 .end method

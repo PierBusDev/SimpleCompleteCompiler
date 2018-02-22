@@ -120,7 +120,7 @@ public class ProgTranslator {
         //===========================================================
         }else if(look.tag == Word.iftok.tag ){ // STAT -> if BEXPR then STAT ELSE_STAT
             move();
-            int ltrue = codeGen.newLabel(), lfalse = codeGen.newLabel();
+            int ltrue = codeGen.newLabel(), lfalse = lnext;
             bexpr(ltrue, lfalse);
                 //if the comparision returned true this is where to go: (aka execute the then subtree)
                 codeGen.emitLabel(ltrue);
@@ -131,10 +131,9 @@ public class ProgTranslator {
             //codeGen.emit(OpCode.GOto, lnext);
 
             //if bexpr evaluates as false it will go here
-            codeGen.emitLabel(lfalse);
-            // if there is an else i will have the code here,
-            // if ELSE_STATE->epsilon this label will go to the stat->next
-            else_stat(lnext, lfalse);
+            //codeGen.emitLabel(lfalse);
+            // if there is an else i will have the code here
+            else_stat(lfalse);
 
         //============================================================
         }else if(look.tag == Word.fortok.tag){ // STAT -> for (id = EXPR; BEXPR) do STAT
@@ -180,10 +179,10 @@ public class ProgTranslator {
     }
 
 
-    private void else_stat(int lnext, int lfalse){
+    private void else_stat(int lnext){
         if(look.tag == Word.elsetok.tag){ //ELSE_STAT -> else STAT
             move();
-            //codeGen.emitLabel(lfalse); //calling this in the if match above
+            //codeGen.emitLabel(lnext);
             stat(lnext);
         }else if(look.tag == Token.semicolon.tag
                 || look.tag == Word.end.tag
