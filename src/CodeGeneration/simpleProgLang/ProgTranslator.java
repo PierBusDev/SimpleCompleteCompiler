@@ -18,14 +18,15 @@ public class ProgTranslator {
     private BufferedReader pbr;
     private Token look;
 
-    CodeGenerator codeGen = new CodeGenerator("src/CodeGeneration/simpleProgLang/Output.j");
+    CodeGenerator codeGen;
     SymbolTable st = new SymbolTable();
     int count = 0;
 
-    public ProgTranslator(Lexer l, BufferedReader br){
+    public ProgTranslator(Lexer l, BufferedReader br, String outputFileName){
         lex = l;
         pbr = br;
         move();
+        codeGen = new CodeGenerator(outputFileName);
     }
 
     void move(){
@@ -121,10 +122,18 @@ public class ProgTranslator {
             move();
             int ltrue = codeGen.newLabel(), lfalse = codeGen.newLabel();
             bexpr(ltrue, lfalse);
+                //if the comparision returned true this is where to go: (aka execute the then subtree)
                 codeGen.emitLabel(ltrue);
+
             match(Tag.THEN, "should have read then instead of " + look.tag);
+
             stat(lnext);
-                codeGen.emit(OpCode.GOto, lnext);
+            //codeGen.emit(OpCode.GOto, lnext);
+
+            //if bexpr evaluates as false it will go here
+            codeGen.emitLabel(lfalse);
+            // if there is an else i will have the code here,
+            // if ELSE_STATE->epsilon this label will go to the stat->next
             else_stat(lnext, lfalse);
 
         //============================================================
@@ -174,7 +183,7 @@ public class ProgTranslator {
     private void else_stat(int lnext, int lfalse){
         if(look.tag == Word.elsetok.tag){ //ELSE_STAT -> else STAT
             move();
-            codeGen.emitLabel(lfalse);
+            //codeGen.emitLabel(lfalse); //calling this in the if match above
             stat(lnext);
         }else if(look.tag == Token.semicolon.tag
                 || look.tag == Word.end.tag
@@ -228,23 +237,18 @@ public class ProgTranslator {
             expr();
 
             //now I have both the subtrees of EXPR and the relop token
+            //remember not to move(), I already matched, this is an ausiliary variable not "look"
             if(relopToken == Word.eq){ // ==
-                move();
                 codeGen.emit(OpCode.if_icmpeq, ltrue);
             }else if(relopToken == Word.ge){ // >=
-                move();
                 codeGen.emit(OpCode.if_icmpge, ltrue);
             }else if(relopToken == Word.gt){ // >
-                move();
                 codeGen.emit(OpCode.if_icmpgt, ltrue);
             }else if(relopToken == Word.le){ // <=
-                move();
                 codeGen.emit(OpCode.if_icmple, ltrue);
             }else if(relopToken == Word.lt){ // <
-                move();
                 codeGen.emit(OpCode.if_icmplt, ltrue);
             }else if(relopToken == Word.ne){ // <>
-                move();
                 codeGen.emit(OpCode.if_icmpne, ltrue);
             }else{
                 error("Expected a relop symbol");
@@ -357,7 +361,19 @@ public class ProgTranslator {
         String path = "src/CodeGeneration/simpleProgLang/prog.txt";
         try{
             BufferedReader br = new BufferedReader(new FileReader(path));
-            ProgTranslator translator = new ProgTranslator(lex, br);
+            ProgTranslator translator = new ProgTranslator(lex, br, "src/CodeGeneration/simpleProgLang/Output.j");
+            translator.prog();
+            System.out.println("input ok");
+            br.close();
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+
+        lex = new Lexer();
+        path = "src/CodeGeneration/simpleProgLang/advProg.txt";
+        try{
+            BufferedReader br = new BufferedReader(new FileReader(path));
+            ProgTranslator translator = new ProgTranslator(lex, br, "src/CodeGeneration/simpleProgLang/advOutput.j");
             translator.prog();
             System.out.println("input ok");
             br.close();
