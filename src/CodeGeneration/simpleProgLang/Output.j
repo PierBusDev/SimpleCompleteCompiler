@@ -36,7 +36,7 @@ L2:
  iload 0
  ldc 10
  if_icmplt L3
- goto L0
+ goto L4
 L3:
  iload 1
  ldc 1
@@ -47,10 +47,11 @@ L3:
  iadd 
  istore 0
  goto L2
+L4:
 L1:
  ldc 999
  istore 0
-L4:
+L5:
 L0:
  return
 .end method

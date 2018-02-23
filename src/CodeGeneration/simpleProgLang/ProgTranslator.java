@@ -144,7 +144,7 @@ public class ProgTranslator {
             match(Token.lpt.tag, "should have read ( instead of " + look.tag );
                 begin = codeGen.newLabel();
                 btrue = codeGen.newLabel();
-                bfalse = lnext;
+                bfalse = codeGen.newLabel();
 
             int id_addr = st.lookupAddress(((Word)look).lexeme);
             if(id_addr == -1){ // not found
@@ -160,7 +160,7 @@ public class ProgTranslator {
                 codeGen.emitLabel(begin);
             bexpr(btrue);
                 //if the expr is false, goto the next of STAT (jumping out of the for)
-                codeGen.emit(OpCode.GOto, lnext);
+                codeGen.emit(OpCode.GOto, bfalse);
             codeGen.emitLabel(btrue);
             match(Token.rpt.tag, "should have read ) instead of " + look.tag);
             match(Word.dotok.tag, "should have read do instead of " + look.tag);
@@ -174,7 +174,7 @@ public class ProgTranslator {
                 codeGen.emit(OpCode.istore, id_addr);
                 //-----
                 codeGen.emit(OpCode.GOto, begin);
-
+            codeGen.emitLabel(bfalse);
         //====================================================================
         }else if(look.tag == Word.begin.tag){ //STAT -> begin STATLIST end
             move();
