@@ -354,8 +354,13 @@ public class ProgTranslator {
         }else if(look.tag ==  Tag.ID){ // FACT -> id;
             int id_addr = st.lookupAddress(((Word)look).lexeme);
             if(id_addr == -1){ // not found
-                id_addr = count;
-                st.insert(((Word)look).lexeme, count++); //just store it
+                //id_addr = count;
+                //st.insert(((Word)look).lexeme, count++); //just store it
+
+                //if he have not found the address here I have a big problem
+                //because of the grammar here I am already "using" this identifier in a operation assuming it is initialized
+                //but if I end in this IF someone failed to initialize it, big error!
+                error("Identifier " + ((Word) look).lexeme + " is not initialize while at this point it needs to be!" );
             }
             codeGen.emit(OpCode.iload, id_addr);
             move();
