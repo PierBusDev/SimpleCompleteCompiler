@@ -56,6 +56,8 @@ public class LexerWithAdvancedIdentifiersAndCommentsTest {
         tc.add(new TestCase("d=300;/*@#?*/d=300;//test", "<257, d> <61> <256, 300> <59> <257, d> <61> <256, 300> <59> <-1>" ));
         tc.add(new TestCase("d=300;/*distanza*//*prova*/", "<257, d> <61> <256, 300> <59> <-1>" ));
         tc.add(new TestCase("x*/y", "<257, x> <42> <47> <257, y> <-1>" ));
+        tc.add(new TestCase("x/***/y", "<257, x> <257, y> <-1>" ));
+
     }
 
     @Test

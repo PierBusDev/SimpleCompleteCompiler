@@ -64,34 +64,41 @@ public class LexerWithAdvancedIdentifiersAndComments {
                     }
                     //go forward
                     return this.lexicalScan(br);
-                }else if(peek == '*'){ //case /*
+                }else if(peek == '*') { //case /*
                     readch(br);
-                    if(peek == (char) -1){
-                        System.err.println("Error, a comment starting with /* was not closed correctly before the eof");
-                        return null;
-                    }
-                    while(true){
-                        if(peek == '*'){
-                            readch(br);
-                            if(peek == '/'){ //end of comment
-                                readch(br);
-                                //go forward
-                                return this.lexicalScan(br);
-                            }else{ //it was just an isolated *
-                                if(peek == (char) -1){
-                                    System.err.println("Error, a comment starting with /* was not closed correctly before the eof");
+                    int state = 0;
+                    boolean stillAComment = true;
+                    while(stillAComment){
+                        switch (state) { //let's do this dfa like
+                            case 0:
+                                if (peek == '/')
+                                    state = 0;
+                                else if (peek == '*')
+                                    state = 1;
+                                else if(peek == (char) -1) {
+                                    System.err.println("Found EOF before closing a /**/ comment");
                                     return null;
                                 }
-                                readch(br);
-                            }
-                        }else{ //we are still inside the comment, skip the char
-                            if(peek == (char) -1){
-                                System.err.println("Error, a comment starting with /* was not closed correctly before the eof");
-                                return null;
-                            }
-                            readch(br);
+                                else state = 0;
+                                break;
+
+                            case 1:
+                                if (peek == '*')
+                                    state = 1;
+                                else if (peek == '/'){
+                                    stillAComment = false;
+                                    break;
+                                }
+                                else if(peek == (char) -1) {
+                                    System.err.println("Found EOF before closing a /**/ comment");
+                                    return null;
+                                }
+                                else state = 0;
+                                break;
                         }
+                        readch(br);
                     }
+                    return this.lexicalScan(br);
                 }else{
                     return Token.div;
                 }
