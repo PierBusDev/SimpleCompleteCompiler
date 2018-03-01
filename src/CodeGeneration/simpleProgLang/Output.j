@@ -38,10 +38,8 @@ L2:
  if_icmplt L3
  goto L4
 L3:
- iload 1
- ldc 1
- iadd 
- istore 1
+ iload 0
+ invokestatic Output/print(I)V
 L5:
  ldc 1
  iload 0
@@ -53,18 +51,24 @@ L1:
  ldc 999
  istore 0
 L6:
- iload 1
- iload 2
- if_icmpgt L8
- goto L9
-L8:
- iload 1
- istore 2
- goto L7
-L9:
- iload 3
- istore 2
+ ldc 3
+ istore 1
 L7:
+ ldc 0
+ istore 2
+L8:
+ iload 2
+ iload 1
+ if_icmpgt L10
+ goto L11
+L10:
+ iload 0
+ istore 1
+ goto L9
+L11:
+ iload 2
+ istore 1
+L9:
 L0:
  return
 .end method

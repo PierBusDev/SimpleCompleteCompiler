@@ -213,7 +213,7 @@ public class ProgTranslator {
                 || look.tag == Word.fortok.tag
                 || look.tag == Word.begin.tag){ //STATLIST-> STAT STATLISTP
             int stat_next = codeGen.newLabel();
-            stat(lnext);
+            stat(stat_next);
             codeGen.emitLabel(stat_next);
             statlistp();
         }else{
@@ -360,7 +360,7 @@ public class ProgTranslator {
                 //if he have not found the address here I have a big problem
                 //because of the grammar here I am already "using" this identifier in a operation assuming it is initialized
                 //but if I end in this IF someone failed to initialize it, big error!
-                error("Identifier " + ((Word) look).lexeme + " is not initialize while at this point it needs to be!" );
+                error("Identifier " + ((Word) look).lexeme + " is not initialized while at this point it needs to be!" );
             }
             codeGen.emit(OpCode.iload, id_addr);
             move();
