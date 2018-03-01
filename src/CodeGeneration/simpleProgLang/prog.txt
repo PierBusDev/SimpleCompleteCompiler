@@ -1,2 +1,4 @@
 for(a = 5; a<10) do b = b + 1;
-a = 999
+a = 999;
+
+if b > max then max = b else max = c

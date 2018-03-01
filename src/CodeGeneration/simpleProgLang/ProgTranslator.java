@@ -166,7 +166,9 @@ public class ProgTranslator {
             match(Word.dotok.tag, "should have read do instead of " + look.tag);
             //if I run this STAT it means I am inside the iteration and at the end I have to recheck the conditions
             // so go to the begin label
-            stat(begin);
+            int lincrement = codeGen.newLabel();
+            stat(lincrement);
+                codeGen.emitLabel(lincrement);
                 //code to increment the index
                 codeGen.emit(OpCode.ldc, 1);
                 codeGen.emit(OpCode.iload, id_addr);
@@ -174,6 +176,7 @@ public class ProgTranslator {
                 codeGen.emit(OpCode.istore, id_addr);
                 //-----
                 codeGen.emit(OpCode.GOto, begin);
+
             codeGen.emitLabel(bfalse);
         //====================================================================
         }else if(look.tag == Word.begin.tag){ //STAT -> begin STATLIST end

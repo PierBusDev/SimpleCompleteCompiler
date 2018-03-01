@@ -55,6 +55,6 @@ public class Matricola {
     }
 
     public static void main(String[] args) {
-        System.out.println(NotThreeZeros.scan(args[0]) ? "Ok" : "Nope");
+        System.out.println(Matricola.scan(args[0]) ? "Ok" : "Nope");
     }
 }

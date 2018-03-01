@@ -1,4 +1,4 @@
-max = a;
-if b > max then max = b;
-if c > max then max = c;
-result = max + a * b * c
+read(x);
+for(i=0; i<x) do
+    if i>5 then print(i) else print(x);
+print(i+10)

@@ -89,6 +89,6 @@ public class MatricolaReversed {
     }
 
     public static void main(String[] args) {
-        System.out.println(NotThreeZeros.scan(args[0]) ? "Ok" : "Nope");
+        System.out.println(MatricolaReversed.scan(args[0]) ? "Ok" : "Nope");
     }
 }

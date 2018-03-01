@@ -42,6 +42,7 @@ L3:
  ldc 1
  iadd 
  istore 1
+L5:
  ldc 1
  iload 0
  iadd 
@@ -51,7 +52,19 @@ L4:
 L1:
  ldc 999
  istore 0
-L5:
+L6:
+ iload 1
+ iload 2
+ if_icmpgt L8
+ goto L9
+L8:
+ iload 1
+ istore 2
+ goto L7
+L9:
+ iload 3
+ istore 2
+L7:
 L0:
  return
 .end method

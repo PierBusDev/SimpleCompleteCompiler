@@ -103,6 +103,6 @@ public class MatricolaWithSpaces {
     }
 
     public static void main(String[] args) {
-        System.out.println(NotThreeZeros.scan(args[0]) ? "Ok" : "Nope");
+        System.out.println(MatricolaWithSpaces.scan(args[0]) ? "Ok" : "Nope");
     }
 }

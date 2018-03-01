@@ -43,7 +43,7 @@ public class LexerWithAdvancedIdentifiersAndCommentsTest {
         tc.add(new TestCase("a*7 + ______ / 2", "input is not part of the language"));
         tc.add(new TestCase("123bc = 118", "input is not part of the language"));
         tc.add(new TestCase("pap_8 = 99", "<257, pap_8> <61> <256, 99> <-1>"));
-
+        tc.add(new TestCase("_pap_8 = 99", "<257, _pap_8> <61> <256, 99> <-1>"));
         tc.add(new TestCase("_99 +/* __troll > pap_8 ", "input is not part of the language")); // comment not closed
         // ^^^^ btw in the previous version (without comments) it is a correct string!
 
